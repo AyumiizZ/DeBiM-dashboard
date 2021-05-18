@@ -1,18 +1,43 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <!-- <v-card elevation="2" outlined> aaa</v-card> -->
+  <div>
+    <v-row>
+      <v-col>
+        <TotalQuery></TotalQuery>
+      </v-col>
+      <v-col>
+        <TotalQuery></TotalQuery>
+      </v-col>
+      <v-col>
+        <TotalQuery></TotalQuery>
+      </v-col>
+      <v-col>
+        <TotalQuery></TotalQuery>
+      </v-col>
+      <v-col>
+        <TotalQuery></TotalQuery>
+      </v-col>
+      <v-col>
+        <TotalQuery></TotalQuery>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col><TotalQuery></TotalQuery></v-col>
+      
+    </v-row>
   </div>
+  <!-- <hello-world /> -->
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+// import HelloWorld from "../components/HelloWorld";
+import TotalQuery from "@/components/TotalQuery";
 
 export default {
   name: "Home",
+
   components: {
-    HelloWorld,
+    TotalQuery: TotalQuery,
   },
 };
 </script>
