@@ -3,24 +3,90 @@
     <v-list-item two-line>
       <v-list-item-content>
         <v-list-item-title class="headline"> Total Query </v-list-item-title>
-        <v-list-item-subtitle>last 5 Minutes</v-list-item-subtitle>
+        <!-- <v-list-item-subtitle>last 5 Minutes</v-list-item-subtitle> -->
       </v-list-item-content>
+      <v-list-item-action>
+        <v-row>
+          <v-col cols="5">
+            <v-menu
+              ref="menu"
+              v-model="menuFrom"
+              :close-on-content-click="false"
+              :return-value.sync="dateFrom"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="dateFrom"
+                  label="From"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker v-model="dateFrom" no-title scrollable>
+                <v-spacer></v-spacer>
+                <v-btn text color="primary" @click="menuTo = false">
+                  Cancel
+                </v-btn>
+                <v-btn text color="primary" @click="$refs.menu.save(dateFrom)">
+                  OK
+                </v-btn>
+              </v-date-picker>
+            </v-menu>
+          </v-col>
+          <v-col cols="5">
+            <v-menu
+              ref="menu"
+              v-model="menuTo"
+              :close-on-content-click="false"
+              :return-value.sync="dateTo"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="dateTo"
+                  label="To"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker v-model="dateTo" no-title scrollable>
+                <v-spacer></v-spacer>
+                <v-btn text color="primary" @click="menuTo = false">
+                  Cancel
+                </v-btn>
+                <v-btn text color="primary" @click="$refs.menu.save(dateTo)">
+                  OK
+                </v-btn>
+              </v-date-picker>
+            </v-menu>
+          </v-col>
+          <v-col cols="1">
+            <v-btn icon>
+              <v-icon color="grey lighten-1">mdi-information</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols="1">
+            <v-btn icon>
+              <v-icon color="grey lighten-1">mdi-information</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-list-item-action>
     </v-list-item>
-    <v-chart class="chart" :option="option" autoresize/>
+    <v-chart class="chart" :option="option" autoresize />
     <v-card-text>
       <hr />
       <v-icon small>mdi-clock</v-icon>
       <span> Just Updated</span>
-      <!-- <v-row align="center">
-        <v-col class="display-3" cols="6"> 23&deg;C </v-col>
-        <v-col cols="6">
-          <v-img
-            src="https://cdn.vuetifyjs.com/images/cards/sun.png"
-            alt="Sunny image"
-            width="92"
-          ></v-img>
-        </v-col>
-      </v-row> -->
     </v-card-text>
   </v-card>
 </template>
@@ -77,6 +143,12 @@ export default {
   data() {
     return {
       option: {
+        grid: {
+          left: "3%",
+          top: "3%",
+          right: "1%",
+          bottom: "7%",
+        },
         tooltip: {
           trigger: "axis",
           formatter: function (params) {
@@ -135,6 +207,10 @@ export default {
           },
         ],
       },
+      dateTo: new Date().toISOString().substr(0, 10),
+      menuTo: false,
+      dateFrom: new Date().toISOString().substr(0, 10),
+      menuFrom: false,
     };
   },
 };
@@ -142,6 +218,10 @@ export default {
 
 <style scoped>
 .chart {
-  height: 400px;
+  height: 300px;
+}
+.v-list-item__action {
+  padding: 18px 4px 0px 0px;
+  margin: 0px 0px;
 }
 </style>

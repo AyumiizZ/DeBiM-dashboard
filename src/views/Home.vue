@@ -59,3 +59,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.col {
+  padding: 6px;
+}
+</style>
