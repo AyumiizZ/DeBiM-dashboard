@@ -4,6 +4,35 @@ import router from "./router";
 import store from "./store";
 import vuetify from "@/plugins/vuetify";
 
+// import Echarts from "vue-echarts";
+// import "echarts/lib/chart/bar";
+// import "echarts/lib/chart/line";
+// import "echarts/lib/component/title";
+
+import ECharts from 'vue-echarts'
+import { use } from 'echarts/core'
+
+// import ECharts modules manually to reduce bundle size
+import {
+  CanvasRenderer
+} from 'echarts/renderers'
+import {
+  BarChart
+} from 'echarts/charts'
+import {
+  GridComponent,
+  TooltipComponent
+} from 'echarts/components'
+
+use([
+  CanvasRenderer,
+  BarChart,
+  GridComponent,
+  TooltipComponent
+]);
+
+Vue.component("v-chart", ECharts);
+
 Vue.config.productionTip = false;
 
 new Vue({
