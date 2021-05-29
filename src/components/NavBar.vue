@@ -5,12 +5,12 @@
       <v-btn class="rounded-lg" text> DeBiM </v-btn>
     <v-spacer></v-spacer>
     <v-btn icon>
-      <v-icon>mdi-moon-waning-crescent</v-icon>
+      <v-icon color="grey lighten-1">mdi-moon-waning-crescent</v-icon>
     </v-btn>
 
     <v-badge color="red" content="6" offset-x="24" offset-y="24">
       <v-btn icon>
-        <v-icon>mdi-bell</v-icon>
+        <v-icon color="grey lighten-1">mdi-bell</v-icon>
       </v-btn>
     </v-badge>
 
@@ -20,7 +20,7 @@
           <v-avatar size="24">
             <img src="https://randomuser.me/api/portraits/men/1.jpg" />
           </v-avatar>
-          <v-icon>mdi-menu-down</v-icon>
+          <v-icon color="grey lighten-1">mdi-menu-down</v-icon>
         </v-btn>
       </template>
 
