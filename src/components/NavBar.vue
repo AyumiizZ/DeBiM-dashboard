@@ -4,8 +4,8 @@
     <v-app-bar app dense clipped-left style="padding: 0px 0px">
       <v-btn class="rounded-lg" text> DeBiM </v-btn>
     <v-spacer></v-spacer>
-    <v-btn icon>
-      <v-icon color="grey lighten-1" @click="darkmode">mdi-moon-waning-crescent</v-icon>
+    <v-btn icon @click="darkmode">
+      <v-icon color="grey lighten-1" >mdi-moon-waning-crescent</v-icon>
     </v-btn>
 
     <v-badge color="red" content="6" offset-x="24" offset-y="24">
