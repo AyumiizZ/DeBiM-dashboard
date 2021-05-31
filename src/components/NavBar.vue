@@ -5,7 +5,7 @@
       <v-btn class="rounded-lg" text> DeBiM </v-btn>
     <v-spacer></v-spacer>
     <v-btn icon>
-      <v-icon color="grey lighten-1">mdi-moon-waning-crescent</v-icon>
+      <v-icon color="grey lighten-1" @click="darkmode">mdi-moon-waning-crescent</v-icon>
     </v-btn>
 
     <v-badge color="red" content="6" offset-x="24" offset-y="24">
@@ -52,5 +52,10 @@ export default {
       { title: "Users", icon: "mdi-account-group-outline", link: "/about" },
     ],
   }),
+  methods: {
+      darkmode() {
+          this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      }
+  }
 };
 </script>
