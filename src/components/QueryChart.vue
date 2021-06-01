@@ -14,18 +14,24 @@
               :masks="masks"
               is-range
             >
-              <template v-slot="{ inputValue, inputEvents}">
+              <template v-slot="{ inputValue, inputEvents }">
                 <v-row>
                   <v-col cols="auto">
-                    <v-text-field label="From" :value="inputValue.start"
-                      v-on="inputEvents.start"></v-text-field>
+                    <v-text-field
+                      label="From"
+                      :value="inputValue.start"
+                      v-on="inputEvents.start"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="auto">
                     <v-icon>mdi-chevron-right</v-icon>
                   </v-col>
                   <v-col cols="auto">
-                    <v-text-field label="To" :value="inputValue.end"
-                      v-on="inputEvents.end"></v-text-field>
+                    <v-text-field
+                      label="To"
+                      :value="inputValue.end"
+                      v-on="inputEvents.end"
+                    ></v-text-field>
                   </v-col>
                 </v-row>
               </template>
@@ -38,13 +44,21 @@
           </v-col>
           <v-col cols="auto">
             <v-btn icon>
-              <v-icon color="grey lighten-1">mdi-magnify</v-icon>
+              <v-icon color="grey lighten-1" @click="submitRange"
+                >mdi-magnify</v-icon
+              >
             </v-btn>
           </v-col>
         </v-row>
       </v-list-item-action>
     </v-list-item>
-    <v-chart class="chart" :option="option" autoresize />
+    <v-chart
+      v-if="isMounted"
+      ref="totalquerychart"
+      class="chart"
+      :option="option"
+      autoresize
+    />
     <v-card-text>
       <hr />
       <v-icon small>mdi-clock</v-icon>
@@ -54,90 +68,69 @@
 </template>
 
 <script>
-import { use } from "echarts/core";
-import { CanvasRenderer } from "echarts/renderers";
-import { LineChart } from "echarts/charts";
-import {
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent,
-  CalendarComponent,
-} from "echarts/components";
-import VChart, { THEME_KEY } from "vue-echarts";
+// import { use } from "echarts/core";
+// import { CanvasRenderer } from "echarts/renderers";
+// import { LineChart } from "echarts/charts";
+// import {
+//   TitleComponent,
+//   TooltipComponent,
+//   LegendComponent,
+//   CalendarComponent,
+// } from "echarts/components";
+import { THEME_KEY } from "vue-echarts";
 
-use([
-  CanvasRenderer,
-  LineChart,
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent,
-  CalendarComponent,
-]);
-
-function randomData() {
-  now = new Date(+now + oneDay);
-  value = Math.random() * 600;
-  return {
-    name: now.toString(),
-    value: [
-      [now.getFullYear(), now.getMonth() + 1, now.getDate()].join("/"),
-      Math.round(value),
-    ],
-  };
-}
-
-var data = [];
-var now = +new Date(2020, 9, 3);
-var oneDay = 24 * 3600 * 1000;
-var value = Math.random() * 1000;
-for (var i = 0; i < 200; i++) {
-  data.push(randomData());
-}
+// use([
+//   CanvasRenderer,
+//   LineChart,
+//   TitleComponent,
+//   TooltipComponent,
+//   LegendComponent,
+//   CalendarComponent,
+// ]);
 
 export default {
   name: "HelloWorld",
   components: {
-    VChart,
+    // VChart,
   },
   provide: {
     [THEME_KEY]: "light",
   },
   data() {
     return {
-      option: {
+      isMounted: true,
+      option: null,
+      date: new Date(),
+      range: null,
+      showingRange: null,
+      masks: {
+        input: "YYYY-MM-DD h:mm A",
+      },
+    };
+  },
+  methods: {
+    timeInit: function () {
+      var currentTime = new Date();
+      var OneHour = 60000 * 60;
+      this.range = {
+        start: new Date(currentTime.getTime() - OneHour),
+        end: currentTime,
+      };
+      this.submitRange();
+    },
+    submitRange: async function () {
+      this.showingRange = this.range;
+      var dateRange = await this.genDateStep(1000);
+      var option = {
+        legend: {
+          data: ['Total', 'Infected']
+        },
         grid: {
           left: "3%",
-          top: "3%",
+          top: "13%",
           right: "1%",
           bottom: "7%",
-        },
-        tooltip: {
-          trigger: "axis",
-          formatter: function (params) {
-            params = params[0];
-            var date = new Date(params.name);
-            return (
-              date.getDate() +
-              "/" +
-              (date.getMonth() + 1) +
-              "/" +
-              date.getFullYear() +
-              " : " +
-              params.value[1]
-            );
-          },
-          axisPointer: {
-            animation: false,
-          },
-        },
-        toolbox: {
-          feature: {
-            dataZoom: {
-              yAxisIndex: "none",
-            },
-            restore: {},
-            saveAsImage: {},
-          },
+          containLabel: true
         },
         xAxis: {
           type: "time",
@@ -147,89 +140,56 @@ export default {
           type: "value",
           boundaryGap: false,
         },
-        dataZoom: [
-          {
-            type: "inside",
-            start: 0,
-            end: 20,
-          },
-          {
-            start: 0,
-            end: 20,
-          },
-        ],
+
         series: [
           {
-            name: "User",
+            name: 'Total',
+            data: await this.genData(dateRange, 1),
             type: "line",
-            smooth: true,
-            symbol: "none",
-            // areaStyle: {},
-            data: data,
+            areaStyle: {},
+          },
+          {
+            name: 'Infected',
+            data: await this.genData(dateRange, 0.1),
+            type: "line",
+            areaStyle: {},
           },
         ],
-      },
-      datetimeTo: null,
-      datetimeFrom: null,
-      dateTo: null,
-      menuTo: false,
-      dateFrom: null,
-      menuFrom: false,
-      timeFrom: null,
-      menuTimeFrom: false,
-      timeTo: null,
-      menuTimeTo: false,
-      dateRange: {
-        start: new Date(2020, 0, 6),
-        end: new Date(2020, 0, 10),
-      },
-      date: new Date(),
-      range: {
-        start: new Date(2020, 9, 12),
-        end: new Date(2020, 9, 16),
-      },
-      masks: {
-        input: "YYYY-MM-DD h:mm A",
-      },
-    };
-  },
-  methods: {
-    timeInit: function () {
-      var currentTime = new Date();
-      var timeZoneOffset = currentTime.getTimezoneOffset() * 60000;
-      var localISOTime = new Date(currentTime - timeZoneOffset)
-        .toISOString()
-        .slice(0, -1);
-      var halfMin = 30000;
-      var halfMinBeforeISOTime = new Date(
-        currentTime - timeZoneOffset - halfMin
-      )
-        .toISOString()
-        .slice(0, -1);
-      console.log(currentTime.toISOString().substr(11, 8));
-      console.log(localISOTime);
-      console.log(halfMinBeforeISOTime);
-      this.dateFrom = halfMinBeforeISOTime.substr(0, 10);
-      this.dateTo = localISOTime.substr(0, 10);
-      this.timeFrom = halfMinBeforeISOTime.substr(11, 8);
-      this.timeTo = localISOTime.substr(11, 8);
-      this.datetimeTo = {
-        date: halfMinBeforeISOTime.substr(0, 10),
-        time: halfMinBeforeISOTime.substr(11, 8),
       };
-      this.datetimeFrom = {
-        date: localISOTime.substr(0, 10),
-        time: localISOTime.substr(11, 8),
-      };
+      setTimeout(this.testMethod, 50, this.$refs.totalquerychart, option);
     },
-    // switchToMenu: function(ref, datetime, newref) {
-    //   ref.save(datetime)
-    //   newref = true
-    //   console.log(newref)
-    // }
+    genDateStep: function (interval) {
+      var dateRange = new Array();
+      var timediff = (this.range.end - this.range.start) / interval;
+      for (var i = 1; i < interval; i++) {
+        dateRange.push(new Date(this.range.start.getTime() + i * timediff));
+      }
+      dateRange.push(this.range.end);
+      return dateRange;
+    },
+    genData: function (dateRange, percent) {
+      var mask = [
+        1400, 1200, 1000, 900, 800, 750, 700, 800, 1150, 1800, 2300, 2600, 2800,
+        2900, 3000, 3050, 3000, 2950, 2700, 2400, 2100, 1900, 1600, 1550, 1400,
+      ];
+      var dataSeries = new Array();
+      for (var i = 0; i < 1000; i++) {
+        // console.log(dateRange[i])
+        var hr = dateRange[i].getHours();
+        var min = dateRange[i].getMinutes();
+        var data = mask[hr] + (min / 60) * (mask[hr + 1] - mask[hr]);
+        var rand_percent = percent + (Math.random() * 0.1 - 0.05);
+        dataSeries.push([dateRange[i], data * rand_percent]);
+      }
+      return dataSeries;
+    },
+    testMethod: function (chartInstance, option) {
+      chartInstance.setOption(option);
+    },
   },
   mounted() {
     this.timeInit();
+    this.isMounted = true;
   },
 };
 </script>
