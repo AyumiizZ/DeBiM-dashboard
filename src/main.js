@@ -33,6 +33,14 @@ use([
 
 Vue.component("v-chart", ECharts);
 
+
+// import DatetimePicker from 'vuetify-datetime-picker'
+// Vue.use(DatetimePicker)
+import VCalendar from 'v-calendar';
+Vue.use(VCalendar, {
+  componentPrefix: 'vc',
+})
+
 Vue.config.productionTip = false;
 
 new Vue({

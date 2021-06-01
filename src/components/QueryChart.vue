@@ -1,6 +1,5 @@
 <template>
   <v-card>
-    {{timeInit()}}
     <v-list-item one-line>
       <v-list-item-content>
         <v-list-item-title class="headline"> Total Query </v-list-item-title>
@@ -8,153 +7,29 @@
       </v-list-item-content>
       <v-list-item-action>
         <v-row justify="end">
-          <v-col cols="2">
-            <v-menu
-              ref="menuFrom"
-              v-model="menuFrom"
-              :close-on-content-click="false"
-              :return-value.sync="dateFrom"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
+          <v-col cols="auto">
+            <vc-date-picker
+              v-model="range"
+              mode="dateTime"
+              :masks="masks"
+              is-range
             >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="dateFrom"
-                  label="From"
-                  prepend-icon="mdi-calendar"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-text-field>
+              <template v-slot="{ inputValue, inputEvents}">
+                <v-row>
+                  <v-col cols="auto">
+                    <v-text-field label="From" :value="inputValue.start"
+                      v-on="inputEvents.start"></v-text-field>
+                  </v-col>
+                  <v-col cols="auto">
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-col>
+                  <v-col cols="auto">
+                    <v-text-field label="To" :value="inputValue.end"
+                      v-on="inputEvents.end"></v-text-field>
+                  </v-col>
+                </v-row>
               </template>
-              <v-date-picker v-model="dateFrom" no-title scrollable>
-                <v-spacer></v-spacer>
-                <v-btn text color="primary" @click="menuTo = false">
-                  Cancel
-                </v-btn>
-                <v-btn
-                  text
-                  color="primary"
-                  @click="$refs.menuFrom.save(dateFrom)"
-                >
-                  OK
-                </v-btn>
-              </v-date-picker>
-            </v-menu>
-          </v-col>
-          <v-col cols="1">
-            <v-menu
-              ref="menuTimeFrom"
-              v-model="menuTimeFrom"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              :return-value.sync="timeFrom"
-              transition="scale-transition"
-              offset-y
-              max-width="290px"
-              min-width="290px"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="timeFrom"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-time-picker
-                v-if="menuTimeFrom"
-                v-model="timeFrom"
-                format="24hr"
-                use-seconds
-              >
-                <v-btn text color="primary" @click="menuTimeFrom = false">
-                  Cancel
-                </v-btn>
-                <v-spacer></v-spacer>
-
-                <v-btn
-                  text
-                  color="primary"
-                  @click="$refs.menuTimeFrom.save(timeFrom)"
-                >
-                  OK
-                </v-btn>
-              </v-time-picker>
-            </v-menu>
-          </v-col>
-          <v-col cols="2">
-            <v-menu
-              ref="menuTo"
-              v-model="menuTo"
-              :close-on-content-click="false"
-              :return-value.sync="dateTo"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="dateTo"
-                  label="To"
-                  prepend-icon="mdi-calendar"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker v-model="dateTo" no-title scrollable>
-                <v-spacer></v-spacer>
-                <v-btn text color="primary" @click="menuTo = false">
-                  Cancel
-                </v-btn>
-                <v-btn text color="primary" @click="$refs.menuTo.save(dateTo)">
-                  OK
-                </v-btn>
-              </v-date-picker>
-            </v-menu>
-          </v-col>
-          <v-col cols="1">
-            <v-menu
-              ref="menuTimeTo"
-              v-model="menuTimeTo"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              :return-value.sync="timeTo"
-              transition="scale-transition"
-              offset-y
-              max-width="290px"
-              min-width="290px"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="timeTo"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-time-picker
-                v-if="menuTimeTo"
-                v-model="timeTo"
-                format="24hr"
-                use-seconds
-              >
-                <v-btn text color="primary" @click="menuTimeTo = false">
-                  Cancel
-                </v-btn>
-                <v-spacer></v-spacer>
-
-                <v-btn
-                  text
-                  color="primary"
-                  @click="$refs.menuTimeTo.save(timeTo)"
-                >
-                  OK
-                </v-btn></v-time-picker
-              >
-            </v-menu>
+            </vc-date-picker>
           </v-col>
           <v-col cols="auto">
             <v-btn icon>
@@ -293,7 +168,9 @@ export default {
             data: data,
           },
         ],
-      },      
+      },
+      datetimeTo: null,
+      datetimeFrom: null,
       dateTo: null,
       menuTo: false,
       dateFrom: null,
@@ -302,24 +179,58 @@ export default {
       menuTimeFrom: false,
       timeTo: null,
       menuTimeTo: false,
+      dateRange: {
+        start: new Date(2020, 0, 6),
+        end: new Date(2020, 0, 10),
+      },
+      date: new Date(),
+      range: {
+        start: new Date(2020, 9, 12),
+        end: new Date(2020, 9, 16),
+      },
+      masks: {
+        input: "YYYY-MM-DD h:mm A",
+      },
     };
   },
   methods: {
-    timeInit: function() {
-        var currentTime = new Date()
-        var timeZoneOffset = currentTime.getTimezoneOffset() * 60000
-        var localISOTime = (new Date(currentTime - timeZoneOffset)).toISOString().slice(0, -1);
-        var halfMin = 30000
-        var halfMinBeforeISOTime = (new Date(currentTime - timeZoneOffset - halfMin)).toISOString().slice(0, -1)
-        console.log(currentTime.toISOString().substr(11, 8))
-        console.log(localISOTime)
-        console.log(halfMinBeforeISOTime)
-        this.dateFrom = halfMinBeforeISOTime.substr(0,10)
-        this.dateTo = localISOTime.substr(0,10)
-        this.timeFrom= halfMinBeforeISOTime.substr(11,8)
-        this.timeTo = localISOTime.substr(11,8)
-    }
-  }
+    timeInit: function () {
+      var currentTime = new Date();
+      var timeZoneOffset = currentTime.getTimezoneOffset() * 60000;
+      var localISOTime = new Date(currentTime - timeZoneOffset)
+        .toISOString()
+        .slice(0, -1);
+      var halfMin = 30000;
+      var halfMinBeforeISOTime = new Date(
+        currentTime - timeZoneOffset - halfMin
+      )
+        .toISOString()
+        .slice(0, -1);
+      console.log(currentTime.toISOString().substr(11, 8));
+      console.log(localISOTime);
+      console.log(halfMinBeforeISOTime);
+      this.dateFrom = halfMinBeforeISOTime.substr(0, 10);
+      this.dateTo = localISOTime.substr(0, 10);
+      this.timeFrom = halfMinBeforeISOTime.substr(11, 8);
+      this.timeTo = localISOTime.substr(11, 8);
+      this.datetimeTo = {
+        date: halfMinBeforeISOTime.substr(0, 10),
+        time: halfMinBeforeISOTime.substr(11, 8),
+      };
+      this.datetimeFrom = {
+        date: localISOTime.substr(0, 10),
+        time: localISOTime.substr(11, 8),
+      };
+    },
+    // switchToMenu: function(ref, datetime, newref) {
+    //   ref.save(datetime)
+    //   newref = true
+    //   console.log(newref)
+    // }
+  },
+  mounted() {
+    this.timeInit();
+  },
 };
 </script>
 
