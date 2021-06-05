@@ -177,9 +177,9 @@ export default {
         // console.log(dateRange[i])
         var hr = dateRange[i].getHours();
         var min = dateRange[i].getMinutes();
-        var data = mask[hr] + (min / 60) * (mask[hr + 1] - mask[hr]);
+        var rawdata = mask[hr] + (min / 60) * (mask[hr + 1] - mask[hr]);
         var rand_percent = percent + (Math.random() * 0.1 - 0.05);
-        dataSeries.push([dateRange[i], data * rand_percent]);
+        dataSeries.push([dateRange[i], rawdata * rand_percent]);
       }
       return dataSeries;
     },

@@ -1,9 +1,12 @@
 <template>
   <v-card>
-    <v-list-item two-line>
+    <v-list-item>
       <v-list-item-content>
-        <v-list-item-title class="headline"> Total Query </v-list-item-title>
-        <v-list-item-subtitle>last 5 Minutes</v-list-item-subtitle>
+        <!-- <v-list-item-title class="headline"> Total Query (last hour)</v-list-item-title> -->
+
+        <h2 class="font-weight-regular">
+          Total Query <span class="font-weight-light"> (Last Hour)</span>
+        </h2>
       </v-list-item-content>
     </v-list-item>
     <v-chart class="chart" :option="option" autoresize />
@@ -11,16 +14,6 @@
       <hr />
       <v-icon small>mdi-clock</v-icon>
       <span> Just Updated</span>
-      <!-- <v-row align="center">
-        <v-col class="display-3" cols="6"> 23&deg;C </v-col>
-        <v-col cols="6">
-          <v-img
-            src="https://cdn.vuetifyjs.com/images/cards/sun.png"
-            alt="Sunny image"
-            width="92"
-          ></v-img>
-        </v-col>
-      </v-row> -->
     </v-card-text>
   </v-card>
 </template>
@@ -67,7 +60,7 @@ for (var i = 0; i < 200; i++) {
 }
 
 export default {
-  name: "HelloWorld",
+  name: "DonutExample",
   components: {
     VChart,
   },
@@ -77,44 +70,49 @@ export default {
   data() {
     return {
       option: {
-        tooltip: {
-          trigger: "item",
+        title: {
+          left: "center",
         },
         legend: {
-          top: "5%",
-          left: "center",
+          show: true,
+          orient: 'vertical',
+          right: 70,
+        top: 30,
+        bottom: 20,
+        textStyle: {
+          fontFamily: 'Roboto'
+        }
+        },
+        tooltip: {
+          trigger: "item", formatter: '{b}       {c} ({d}%)'
         },
         series: [
           {
-            name: "访问来源",
             type: "pie",
-            radius: ["40%", "70%"],
-            avoidLabelOverlap: false,
+            radius: ["30%", "75%"],
+            center: ['30%', '50%'],
+            label: {
+              fontSize: 10,
+              show: true,
+              formatter: "{b}\n{c} ({d}%)",
+            },
+            labelLine: {
+              show: true,
+              lineStyle: {
+                width: 3,
+              },
+            },
             itemStyle: {
               borderRadius: 10,
               borderColor: "#fff",
               borderWidth: 2,
             },
-            label: {
-              show: false,
-              position: "center",
-            },
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: "40",
-                fontWeight: "bold",
-              },
-            },
-            labelLine: {
-              show: false,
-            },
             data: [
-              { value: 1048, name: "搜索引擎" },
-              { value: 735, name: "直接访问" },
-              { value: 580, name: "邮件营销" },
-              { value: 484, name: "联盟广告" },
-              { value: 300, name: "视频广告" },
+              { value: 1048, name: "eeoahxj.info"},
+              { value: 735, name: "xvcgythoxtdjxp.pm"},
+              { value: 580, name: "irmgrdclr.org"},
+              { value: 484, name: "0darchu3gd2z.net"},
+              { value: 300, name: "Other"},
             ],
           },
         ],
@@ -126,6 +124,9 @@ export default {
 
 <style scoped>
 .chart {
-  height: 400px;
+  height: 200px;
+}
+h2 span {
+  font-size: 75%;
 }
 </style>
