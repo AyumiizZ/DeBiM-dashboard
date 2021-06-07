@@ -23,7 +23,7 @@
         <template v-slot:activator="{ on, attrs }">
           <v-btn elevation="0" rounded v-bind="attrs" v-on="on">
             <v-avatar size="24">
-              <img src="https://randomuser.me/api/portraits/men/1.jpg" />
+              <img src="@/assets/ayumiizz-image.jpg" />
             </v-avatar>
             <v-icon color="grey lighten-1">mdi-menu-down</v-icon>
           </v-btn>

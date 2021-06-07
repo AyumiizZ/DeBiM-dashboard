@@ -2,22 +2,22 @@
   <div>
     <v-row>
       <v-col>
-        <TotalQuery></TotalQuery>
+        <TotalQueryFiveMin></TotalQueryFiveMin>
       </v-col>
       <v-col>
-        <TotalQuery></TotalQuery>
+        <QuerySusFiveMin></QuerySusFiveMin>
       </v-col>
       <v-col>
-        <TotalQuery></TotalQuery>
+        <IPSusFiveMin></IPSusFiveMin>
       </v-col>
       <v-col>
-        <TotalQuery></TotalQuery>
+        <TotalQueryWeek></TotalQueryWeek>
       </v-col>
       <v-col>
-        <TotalQuery></TotalQuery>
+        <QuerySusWeek></QuerySusWeek>
       </v-col>
       <v-col>
-        <TotalQuery></TotalQuery>
+        <IPSusWeek></IPSusWeek>
       </v-col>
     </v-row>
     <v-row>
@@ -27,35 +27,46 @@
     </v-row>
     <v-row>
       <v-col>
-        <Donut></Donut>
+        <TopSusDomain></TopSusDomain>
       </v-col>
       <v-col>
-        <Donut></Donut>
+        <TopSusDestIP></TopSusDestIP>
       </v-col>
+
       <v-col>
-        <Donut></Donut>
+        <TopSusSourceIP></TopSusSourceIP>
       </v-col>
     </v-row>
-    
-    
   </div>
   <!-- <hello-world /> -->
 </template>
 
 <script>
-// import HelloWorld from "../components/HelloWorld";
-import TotalQuery from "@/components/TotalQuery";
-import QueryChart from '@/components/QueryChart.vue';
-import Donut from '@/components/Donut.vue';
-// import TestChart from '@/components/TestChart.vue'
+import TotalQueryFiveMin from "@/components/TotalQueryFiveMin";
+import TotalQueryWeek from "@/components/TotalQueryWeek";
+import QuerySusFiveMin from "@/components/QuerySusFiveMin";
+import QuerySusWeek from "@/components/QuerySusWeek";
+import IPSusFiveMin from "@/components/IPSusFiveMin";
+import IPSusWeek from "@/components/IPSusWeek";
+import QueryChart from "@/components/QueryChart.vue";
+import TopSusDestIP from "@/components/TopSusDestIP.vue";
+import TopSusDomain from "@/components/TopSusDomain.vue";
+import TopSusSourceIP from "@/components/TopSusSourceIP.vue";
 
 export default {
   name: "Home",
 
   components: {
-    TotalQuery: TotalQuery,
-    QueryChart: QueryChart,
-    Donut,
+    TotalQueryFiveMin,
+    TotalQueryWeek,
+    QuerySusFiveMin,
+    QuerySusWeek,
+    IPSusFiveMin,
+    IPSusWeek,
+    QueryChart,
+    TopSusDestIP,
+    TopSusDomain,
+    TopSusSourceIP,
   },
 };
 </script>
@@ -63,5 +74,8 @@ export default {
 <style scoped>
 .col {
   padding: 6px;
+}
+.v-input {
+    font-size: 1.2em;
 }
 </style>

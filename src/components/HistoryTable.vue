@@ -1,9 +1,10 @@
 <template>
   <v-card>
-    <v-list-item two-line>
+    <v-list-item>
       <v-list-item-content>
-        <v-list-item-title class="headline"> Query </v-list-item-title>
-        <v-list-item-subtitle>last 5 Minutes</v-list-item-subtitle>
+        <v-list-item-title class="headline">
+          Queries History
+        </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
     <v-data-table
@@ -11,7 +12,6 @@
       :items="desserts"
       multi-sort
       class="elevation-1"
-      items-per-page=5
     ></v-data-table>
   </v-card>
 </template>
@@ -22,100 +22,131 @@ export default {
     return {
       headers: [
         {
-          text: "Dessert (100g serving)",
-          align: "start",
-          sortable: false,
-          value: "name",
+          text: "Source IP",
+          value: "srcip",
         },
-        { text: "Calories", value: "calories" },
-        { text: "Fat (g)", value: "fat" },
-        { text: "Carbs (g)", value: "carbs" },
-        { text: "Protein (g)", value: "protein" },
-        { text: "Iron (%)", value: "iron" },
+        {
+          text: "Source Port",
+          value: "srcpo",
+        },
+        {
+          text: "Destination IP",
+          value: "destip",
+        },
+        {
+          text: "Destination Port",
+          value: "destpo",
+        },
+        {
+          text: "Timestamp",
+          value: "timestamp",
+        },
+        {
+          text: "Query Data",
+          value: "qd",
+        },
       ],
       desserts: [
         {
-          name: "Frozen Yogurt",
-          calories: 200,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: "1%",
+          srcip: "192.168.1.1",
+          srcpo: 38323,
+          destip: "158.108.0.2",
+          destpo: 53,
+          timestamp: "2021-06-07 17:25:01.105",
+          qd: "eeoahxj.info",
         },
         {
-          name: "Ice cream sandwich",
-          calories: 200,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: "1%",
+          srcip: "192.168.1.1",
+          srcpo: 51490,
+          destip: "158.108.0.3",
+          destpo: 53,
+          timestamp: "2021-06-07 17:25:01.105",
+          qd: "eeoahxj.info",
         },
         {
-          name: "Eclair",
-          calories: 300,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: "7%",
+          srcip: "192.168.1.1",
+          srcpo: 47081,
+          destip: "158.108.0.2",
+          destpo: 53,
+          timestamp: "2021-06-07 17:25:01.743",
+          qd: "www.ku.ac.th",
         },
         {
-          name: "Cupcake",
-          calories: 300,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: "8%",
+          srcip: "192.168.1.1",
+          srcpo: 47845,
+          destip: "158.108.0.3",
+          destpo: 53,
+          timestamp: "2021-06-07 17:25:01.743",
+          qd: "www.ku.ac.th",
         },
         {
-          name: "Gingerbread",
-          calories: 400,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: "16%",
+          srcip: "192.168.1.1",
+          srcpo: 60642,
+          destip: "158.108.0.3",
+          destpo: 53,
+          timestamp: "2021-06-07 17:25:01.743",
+          qd: "www.ku.ac.th",
         },
         {
-          name: "Jelly bean",
-          calories: 400,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: "0%",
+          srcip: "192.168.1.1",
+          srcpo: 46538,
+          destip: "158.108.0.2",
+          destpo: 53,
+          timestamp: "2021-06-07 17:25:01.105",
+          qd: "jzsqsq.net",
         },
         {
-          name: "Lollipop",
-          calories: 400,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: "2%",
+          srcip: "192.168.1.1",
+          srcpo: 34764,
+          destip: "158.108.0.2",
+          destpo: 53,
+          timestamp: "2021-06-07 17:25:01.743",
+          qd: "www.ku.ac.th",
+        },
+        
+        {
+          srcip: "192.168.1.1",
+          srcpo: 36983,
+          destip: "158.108.0.3",
+          destpo: 53,
+          timestamp: "2021-06-07 17:25:02.013",
+          qd: "oflpzfgeviq.com",
         },
         {
-          name: "Honeycomb",
-          calories: 400,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: "45%",
+          srcip: "192.168.1.1",
+          srcpo: 44639,
+          destip: "158.108.0.2",
+          destpo: 53,
+          timestamp: "2021-06-07 17:25:02.013",
+          qd: "oflpzfgeviq.com",
         },
         {
-          name: "Donut",
-          calories: 500,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: "22%",
+          srcip: "192.168.1.1",
+          srcpo: 60540,
+          destip: "158.108.0.3",
+          destpo: 53,
+          timestamp: "2021-06-07 17:25:02.013",
+          qd: "oflpzfgeviq.com",
         },
         {
-          name: "KitKat",
-          calories: 500,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: "6%",
+          srcip: "192.168.1.1",
+          srcpo: 53462,
+          destip: "158.108.0.2",
+          destpo: 53,
+          timestamp: "2021-06-07 17:25:01.105",
+          qd: "www.ku.ac.th",
         },
       ],
     };
   },
 };
 </script>
+
+<style scoped>
+th {
+  font-size: 24px;
+}
+tr {
+  font-size: 24px;
+}
+</style>

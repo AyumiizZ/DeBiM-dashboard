@@ -5,15 +5,20 @@
         <!-- <v-list-item-title class="headline"> Total Query (last hour)</v-list-item-title> -->
 
         <h2 class="font-weight-regular">
-          Total Query <span class="font-weight-light"> (Last Hour)</span>
+          Top Suspected Source IP <span class="font-weight-light"> (Last Hour)</span>
         </h2>
       </v-list-item-content>
     </v-list-item>
-    <v-chart class="chart" :option="option" autoresize />
+    <hr class="outside__hr"/>
+    <v-row>
+      <v-col cols="10">
+        <v-chart class="chart" :option="option" autoresize />
+      </v-col>
+    </v-row>
     <v-card-text>
       <hr />
       <v-icon small>mdi-clock</v-icon>
-      <span> Just Updated</span>
+      <span> Last Updated: {{date}}</span>
     </v-card-text>
   </v-card>
 </template>
@@ -39,28 +44,8 @@ use([
   CalendarComponent,
 ]);
 
-function randomData() {
-  now = new Date(+now + oneDay);
-  value = Math.random() * 600;
-  return {
-    name: now.toString(),
-    value: [
-      [now.getFullYear(), now.getMonth() + 1, now.getDate()].join("/"),
-      Math.round(value),
-    ],
-  };
-}
-
-var data = [];
-var now = +new Date(2020, 9, 3);
-var oneDay = 24 * 3600 * 1000;
-var value = Math.random() * 1000;
-for (var i = 0; i < 200; i++) {
-  data.push(randomData());
-}
-
 export default {
-  name: "DonutExample",
+  name: "TopSusSourceIP",
   components: {
     VChart,
   },
@@ -69,28 +54,31 @@ export default {
   },
   data() {
     return {
+      date: new Date(),
       option: {
         title: {
           left: "center",
         },
         legend: {
           show: true,
-          orient: 'vertical',
-          right: 70,
-        top: 30,
-        bottom: 20,
-        textStyle: {
-          fontFamily: 'Roboto'
-        }
+          orient: "vertical",
+          right: 0,
+          top: 30,
+          bottom: 20,
+          textStyle: {
+            fontFamily: "Roboto",
+            fontSize: 16,
+          },
         },
         tooltip: {
-          trigger: "item", formatter: '{b}       {c} ({d}%)'
+          trigger: "item",
+          formatter: "{b}       {c} ({d}%)",
         },
         series: [
           {
             type: "pie",
             radius: ["30%", "75%"],
-            center: ['30%', '50%'],
+            center: ["30%", "50%"],
             label: {
               fontSize: 10,
               show: true,
@@ -108,11 +96,11 @@ export default {
               borderWidth: 2,
             },
             data: [
-              { value: 1048, name: "eeoahxj.info"},
-              { value: 735, name: "xvcgythoxtdjxp.pm"},
-              { value: 580, name: "irmgrdclr.org"},
-              { value: 484, name: "0darchu3gd2z.net"},
-              { value: 300, name: "Other"},
+              { value: 1116, name: "10.0.0.1 33.29%" },
+              { value: 935, name: "10.0.0.2 27.89%" },
+              { value: 580, name: "10.0.0.3 17.3%" },
+              { value: 391, name: "10.0.0.4 11.67%" },
+              { value: 330, name: "Other 9.85%" },
             ],
           },
         ],
@@ -125,8 +113,12 @@ export default {
 <style scoped>
 .chart {
   height: 200px;
+  width: 500px;
 }
 h2 span {
-  font-size: 75%;
+  font-size: 65%;
+}
+.outside__hr {
+  margin: 3px 16px 3px 16px;
 }
 </style>

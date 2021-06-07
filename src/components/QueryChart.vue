@@ -2,7 +2,7 @@
   <v-card>
     <v-list-item one-line>
       <v-list-item-content>
-        <v-list-item-title class="headline"> Total Query </v-list-item-title>
+        <v-list-item-title class="headline"> Queries </v-list-item-title>
         <!-- <v-list-item-subtitle>last 5 Minutes</v-list-item-subtitle> -->
       </v-list-item-content>
       <v-list-item-action>
@@ -52,6 +52,7 @@
         </v-row>
       </v-list-item-action>
     </v-list-item>
+    <hr />
     <v-chart
       v-if="isMounted"
       ref="totalquerychart"
@@ -59,11 +60,7 @@
       :option="option"
       autoresize
     />
-    <v-card-text>
-      <hr />
-      <v-icon small>mdi-clock</v-icon>
-      <span> Just Updated</span>
-    </v-card-text>
+    <v-card-text> </v-card-text>
   </v-card>
 </template>
 
@@ -89,7 +86,7 @@ import { THEME_KEY } from "vue-echarts";
 // ]);
 
 export default {
-  name: "HelloWorld",
+  name: "QueryChart",
   components: {
     // VChart,
   },
@@ -123,36 +120,56 @@ export default {
       var dateRange = await this.genDateStep(1000);
       var option = {
         legend: {
-          data: ['Total', 'Infected']
+          top: "0%",
+          data: ["Total", "Infected"],
+          textStyle: {
+            fontFamily: "Roboto",
+            fontSize: 16,
+          },
         },
         grid: {
-          left: "3%",
-          top: "13%",
-          right: "1%",
+          left: "2%",
+          top: "11%",
+          right: "2%",
           bottom: "7%",
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
+          name: "Time",
+          nameLocation: "center",
+          nameGap: 25,
+          nameTextStyle: {
+            fontSize: 16,
+          },
           type: "time",
           boundaryGap: false,
         },
         yAxis: {
+          name: "# Queries",
+          nameLocation: "middle",
+          nameGap: 45,
+          nameTextStyle: {
+            fontSize: 16,
+            padding: [0, 0, 0, 0],
+          },
           type: "value",
           boundaryGap: false,
         },
 
         series: [
           {
-            name: 'Total',
+            name: "Total",
             data: await this.genData(dateRange, 1),
             type: "line",
             areaStyle: {},
+            // color: '#73c0de'
           },
           {
-            name: 'Infected',
+            name: "Infected",
             data: await this.genData(dateRange, 0.1),
             type: "line",
             areaStyle: {},
+            color: "#ee6666",
           },
         ],
       };
@@ -196,10 +213,13 @@ export default {
 
 <style scoped>
 .chart {
-  height: 300px;
+  height: 350px;
 }
 .v-list-item__action {
   padding: 18px 4px 0px 0px;
   margin: 0px 0px;
+}
+hr {
+  margin: 3px 16px 3px 16px;
 }
 </style>
