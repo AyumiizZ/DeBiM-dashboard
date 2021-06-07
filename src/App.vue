@@ -1,32 +1,55 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <v-app>
+    
+    <NavBar></NavBar>
+    
+  
+    <SideBar></SideBar>
+
+    
+    <!-- Sizes your content based upon application components -->
+    <v-main>
+      <!-- Provides the application the proper gutter -->
+      <v-container fluid style="padding: 24px 32px">
+        <!-- If using vue-router -->
+        <router-view />
+      </v-container>
+    </v-main>
+
+    <v-footer app>
+      <!-- -->
+    </v-footer>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import NavBar from '@/components/NavBar';
+import SideBar from "@/components/SideBar";
+// import TestChart from '@/components/TestChart.vue'
+// import QueryChart from '@/components/QueryChart.vue';
+export default {
+  name: "App",
+  components: {
+    NavBar,
+    // HelloWorld,
+    SideBar
+    // TestChart,
+  },
+  data: () => ({
+    drawer: true,
+    items: [
+      { title: "Dashboard", icon: "mdi-home-city", link: "/" },
+      { title: "History", icon: "mdi-history", link: "/history" },
+      { title: "Statistics", icon: "mdi-chart-bar", link: "/about" },
+      { title: "Alert Control", icon: "mdi-home-city", link: "/about" },
+      { title: "My Account", icon: "mdi-account", link: "/about" },
+      { title: "Users", icon: "mdi-account-group-outline", link: "/about" },
+    ],
+    mini: true,
+  }),
+};
+</script>
 
-#nav {
-  padding: 30px;
-}
+<style scoped>
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
