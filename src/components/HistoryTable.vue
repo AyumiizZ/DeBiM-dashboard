@@ -103,7 +103,6 @@ export default {
           timestamp: "2021-06-07 17:25:01.743",
           qd: "www.ku.ac.th",
         },
-        
         {
           srcip: "192.168.1.1",
           srcpo: 36983,

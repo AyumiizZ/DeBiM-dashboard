@@ -26,14 +26,14 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
+      <v-col cols="4">
         <TopSusDomain></TopSusDomain>
       </v-col>
-      <v-col>
+      <v-col cols="4">
         <TopSusDestIP></TopSusDestIP>
       </v-col>
 
-      <v-col>
+      <v-col cols="4">
         <TopSusSourceIP></TopSusSourceIP>
       </v-col>
     </v-row>
